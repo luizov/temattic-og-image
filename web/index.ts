@@ -148,7 +148,7 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-  { text: "Dimitar Luizov", value: "https://luizov.com/logo.svg" },
+  { text: "Logo", value: "https://luizov.com/logo.svg" },
   {
     text: "Vercel",
     value:
@@ -167,7 +167,7 @@ const imageLightOptions: DropdownOption[] = [
 ];
 
 const imageDarkOptions: DropdownOption[] = [
-  { text: "Dimitar Luizov", value: "https://luizov.com/logo.svg" },
+  { text: "Logo", value: "https://luizov.com/logo.svg" },
   {
     text: "Vercel",
     value:
