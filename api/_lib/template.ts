@@ -22,12 +22,16 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
 function getCss(theme: string, fontSize: string) {
   let background = "white";
   let foreground = "#2B3545";
-  /*   let radial = "lightgray"; */
+  let gradient = "#E0E7FF";
+  let card = "#FFFFFF";
+  let border = "#E4EAF3";
 
   if (theme === "dark") {
-    background = "black";
+    background = "#131C28";
     foreground = "white";
-    /*     radial = "dimgray"; */
+    gradient = "#394558";
+    card = "#394558";
+    border = "rgba(255,255,255, 0.1)";
   }
   return `
         @font-face {
@@ -69,7 +73,7 @@ function getCss(theme: string, fontSize: string) {
         font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         background: ${background};
-        background-image: linear-gradient(180deg, #FFFFFF 36.35%, #E0E7FF 119.05%);
+        background-image: linear-gradient(180deg, ${background} 36.35%, ${gradient} 119.05%);
         text-align: left;
         margin: 0;
         padding: 0;
@@ -156,9 +160,9 @@ function getCss(theme: string, fontSize: string) {
       display: flex;
       min-width: 900px;
       min-height: 94%;
-      background: white;
+      background: ${card};
       border-radius: 0.75rem;
-      border: 2px solid #E4EAF3;
+      border: 2px solid ${border};
       box-shadow: 0px 5.30536px 31.8322px rgba(43, 53, 69, 0.12);
     }`;
 }
