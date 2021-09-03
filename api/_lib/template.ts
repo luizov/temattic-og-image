@@ -6,8 +6,11 @@ const twemoji = require("twemoji");
 const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(
+const headings = readFileSync(
   `${__dirname}/../_fonts/SpaceGrotesk-var.woff2`
+).toString("base64");
+const rglr = readFileSync(
+  `${__dirname}/../_fonts/Inter-Regular.woff2`
 ).toString("base64");
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString(
   "base64"
@@ -19,19 +22,19 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
 function getCss(theme: string, fontSize: string) {
   let background = "white";
   let foreground = "#2B3545";
-  let radial = "lightgray";
+  /*   let radial = "lightgray"; */
 
   if (theme === "dark") {
     background = "black";
     foreground = "white";
-    radial = "dimgray";
+    /*     radial = "dimgray"; */
   }
   return `
         @font-face {
         font-family: 'SpaceGrotesk';
         font-style:  normal;
         font-weight: 100 800;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
+        src: url(data:font/woff2;charset=utf-8;base64,${headings}) format('woff2');
     }
     
     @font-face {
@@ -56,16 +59,21 @@ function getCss(theme: string, fontSize: string) {
       }
 
     body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
-        height: 100vh;
-        text-align: left;
-        padding: 0 150px;
-        padding-bottom: 200px;
-        width: 100%;
+        position: relative;
         display: flex;
-        align-items: flex-end;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 100vh;
+        width: 100%;
+        font-family: 'Inter', sans-serif;
+        font-size: ${sanitizeHtml(fontSize)};
+        background: ${background};
+        background-image: linear-gradient(180deg, #FFFFFF 36.35%, #E0E7FF 119.05%);
+        text-align: left;
+        margin: 0;
+        padding: 0;
+
     }
 
     code {
@@ -81,14 +89,10 @@ function getCss(theme: string, fontSize: string) {
 
     .logo-wrapper {
         display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
     }
 
     .logo {
-        margin: 0 75px;
+        margin: 0 0 64px 0;
     }
 
     .plus {
@@ -109,33 +113,59 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .desc {
+        max-width: 60%;
+        font-family: 'Inter', sans-serif;
         font-size: 0.5em;
-        opacity: 0.8;
         font-weight: 500;
-        margin-bottom:50px !important;
+        color: #8290A5;
+        margin-bottom: 50px !important;
     }
 
     .website {
         font-size: 0.5em;
-        opacity: 0.5;
+        opacity: 0.6;
         font-weight: 400;
     }
     
     .heading {
+        max-width: 60%;
         font-family: 'SpaceGrotesk', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
+        font-weight: 800;
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
+        line-height: 1.1;
+        letter-spacing: -4px;
     }
 
     .heading * {
         margin: 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: 40px 80px;
+    }
+    
+    .card {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transform: translate(20%, 10%);
+      display: flex;
+      min-width: 900px;
+      min-height: 94%;
+      background: white;
+      border-radius: 0.75rem;
+      border: 2px solid #E4EAF3;
+      box-shadow: 0px 5.30536px 31.8322px rgba(43, 53, 69, 0.12);
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  const { text, desc, theme, md, fontSize, images, widths, heights } = parsedReq;
+  const { text, desc, theme, md, fontSize, images, widths, heights } =
+    parsedReq;
   return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -145,25 +175,21 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme, fontSize)}
     </style>
     <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images
-                  .map(
-                    (img, i) =>
-                      getPlusSign(i) + getImage(img, widths[i], heights[i])
-                  )
-                  .join("")}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-              md ? marked(text) : sanitizeHtml(text)
-            )}
-            <p class="desc">${desc}</p>
-            <div class="spacer">
-            <p class="website">samuelkraft.com</p>
-            </div>
+      <div class="content">
+        <div class="logo-wrapper">
+          ${images
+            .map(
+              (img, i) => getPlusSign(i) + getImage(img, widths[i], heights[i])
+            )
+            .join("")}
         </div>
+        <div class="heading">
+          ${emojify(md ? marked(text) : sanitizeHtml(text))}
+        </div>
+        <p class="desc">${desc}</p>
+      </div>
+      <div class="card">
+      </div>
     </body>
 </html>`;
 }
