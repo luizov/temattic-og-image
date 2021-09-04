@@ -11,4 +11,7 @@ export interface ParsedRequest {
   images: string[];
   widths: string[];
   heights: string[];
+  entryImage: string;
+  article: boolean;
+  time: string;
 }
