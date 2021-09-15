@@ -20,21 +20,21 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
 );
 
 function getCss(theme: string, fontSize: string) {
-  let background = "white";
-  let foreground = "#2B3545";
-  let foregroundLight = "#8290A5";
-  let gradient = "#E0E7FF";
+  let background = "#F9F8F9";
+  let foreground = "#1A1523";
+  let foregroundLight = "#6F6E77";
+  let gradient = "#FDFCFD";
   let highlight = "rgba(236,251,63,1)";
-  let card = "#FFFFFF";
-  let border = "#E4EAF3";
+  let card = "#F4F2F4";
+  let border = "#DCDBDD";
 
   if (theme === "dark") {
-    background = "#131C28";
-    foreground = "white";
-    gradient = "#394558";
+    background = "#161618";
+    foreground = "#EDEDEF";
+    gradient = "#232326";
     highlight = "#8290A5";
-    card = "#394558";
-    border = "rgba(255,255,255, 0.1)";
+    card = "#232326";
+    border = "#3E3E44";
   }
   return `
         @font-face {
