@@ -149,8 +149,8 @@ const markdownOptions: DropdownOption[] = [
 
 const imageLightOptions: DropdownOption[] = [
   {
-    text: "Logo",
-    value: "https://a.storyblok.com/f/125390/x/2673d38e68/logo-temattic.svg",
+    text: "Temattic Logo",
+    value: "https://a.storyblok.com/f/125390/x/576e41ff96/logo-badge.svg",
   },
   {
     text: "Vercel",
@@ -171,8 +171,8 @@ const imageLightOptions: DropdownOption[] = [
 
 const imageDarkOptions: DropdownOption[] = [
   {
-    text: "Logo",
-    value: "https://a.storyblok.com/f/125390/x/2673d38e68/logo-temattic.svg",
+    text: "Temattic Logo",
+    value: "https://a.storyblok.com/f/125390/x/576e41ff96/logo-badge.svg",
   },
   {
     text: "Vercel",
