@@ -7,26 +7,20 @@ const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const headings = readFileSync(
-  `${__dirname}/../_fonts/SpaceGrotesk-var.woff2`
+  `${__dirname}/../_fonts/Fira-Sans-Semi.woff2`
 ).toString("base64");
 const rglr = readFileSync(
-  `${__dirname}/../_fonts/Inter-Regular.woff2`
+  `${__dirname}/../_fonts/Fira-Sans-Regular.woff2`
 ).toString("base64");
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString(
-  "base64"
-);
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
-  "base64"
-);
 
 function getCss(theme: string, fontSize: string) {
   let background = "#F9F8F9";
-  let foreground = "#1A1523";
-  let foregroundLight = "#6F6E77";
+  let foreground = "#11181C";
+  let foregroundLight = "#697177";
   let gradient = "#FDFCFD";
   let highlight = "rgba(236,251,63,1)";
-  let card = "#F4F2F4";
-  let border = "#DCDBDD";
+  let card = "#F9FAFB";
+  let border = "#D7DCDF";
 
   if (theme === "dark") {
     background = "#161618";
@@ -38,32 +32,18 @@ function getCss(theme: string, fontSize: string) {
   }
   return `
         @font-face {
-        font-family: 'SpaceGrotesk';
+        font-family: 'Fira Sans';
         font-style:  normal;
-        font-weight: 100 800;
+        font-weight: 600;
         src: url(data:font/woff2;charset=utf-8;base64,${headings}) format('woff2');
     }
     
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Fira Sans';
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
     }
-
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
-        font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
 
     * {
       margin: 0;
@@ -76,7 +56,7 @@ function getCss(theme: string, fontSize: string) {
         justify-content: space-between;
         height: 100vh;
         width: 100%;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Fira Sans', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         background: ${background};
         background-image: linear-gradient(180deg, ${background} 36.35%, ${gradient} 119.05%);
@@ -103,8 +83,8 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .reading-time {
-      font-size: 0.6em;
-      font-family: 'SpaceGrotesk', sans-serif;
+      font-size: 4rem;
+      font-family: 'Fira Sans', sans-serif;
       letter-spacing: -2px;
       color: ${foregroundLight};
       margin-bottom: 4rem;
@@ -112,14 +92,14 @@ function getCss(theme: string, fontSize: string) {
     
     .heading {
         max-width: 60%;
-        font-family: 'SpaceGrotesk', sans-serif;
+        font-family: 'Fira Sans', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
-        font-weight: 800;
+        font-weight: 600;
         font-style: normal;
         color: ${foreground};
         line-height: 1.1;
-        letter-spacing: -4px;
-        margin-bottom: 10rem;
+        letter-spacing: -2px;
+        margin-bottom: 12rem;
     }
 
     .heading * {
@@ -131,15 +111,14 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .website {
-      font-family: 'SpaceGrotesk', sans-serif;
-      font-size: 0.65em;
-      font-weight: 500;
-      letter-spacing: -2px;
+      font-family: 'Fira Sans', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 600;
       color: ${foreground};
     }
 
     .slug {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Fira Sans', sans-serif;
       font-size: 0.4em;
       font-weight: 500;
       font-style: oblique;
@@ -207,6 +186,7 @@ export function getHtml(parsedReq: ParsedRequest) {
     entryImage,
     article,
     time,
+    slug,
   } = parsedReq;
   if (article) {
     return `<!DOCTYPE html>
@@ -219,7 +199,7 @@ export function getHtml(parsedReq: ParsedRequest) {
       </style>
       <body>
         <div class="content">
-          <div class="reading-time">${time}</div>
+          <div class="reading-time">${time} read</div>
           <div class="heading">
             ${emojify(md ? marked(text) : sanitizeHtml(text))}
           </div>
@@ -233,8 +213,8 @@ export function getHtml(parsedReq: ParsedRequest) {
                 .join("")}
             </div>
             <div class="media-meta">
-              <p class="website">luizov.com</p>
-              <p class="slug">/tailwind-linting</p>
+              <p class="website">temattic.com</p>
+              <p class="slug">/blog/${slug}</p>
             </div>
           </div>
         </div>
@@ -272,7 +252,7 @@ export function getHtml(parsedReq: ParsedRequest) {
                 .join("")}
             </div>
             <div class="media-meta">
-              <p class="website">luizov.com</p>
+              <p class="website">temattic.com</p>
               <p class="slug">/tailwind-linting</p>
             </div>
           </div>

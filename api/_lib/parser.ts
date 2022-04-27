@@ -5,8 +5,19 @@ import { ParsedRequest, Theme } from "./types";
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
   const { pathname, query } = parse(req.url || "/", true);
-  const { fontSize, images, widths, heights, theme, md, desc, entryImage, article, time} =
-    query || {};
+  const {
+    fontSize,
+    images,
+    widths,
+    heights,
+    theme,
+    md,
+    desc,
+    entryImage,
+    article,
+    time,
+    slug,
+  } = query || {};
 
   if (Array.isArray(fontSize)) {
     throw new Error("Expected a single fontSize");
@@ -30,6 +41,7 @@ export function parseRequest(req: IncomingMessage) {
   const description = String(desc);
   const entry = String(entryImage);
   const readingTime = String(time);
+  const postSlug = String(slug);
 
   const parsedRequest: ParsedRequest = {
     fileType: extension === "jpeg" ? extension : "png",
@@ -44,6 +56,7 @@ export function parseRequest(req: IncomingMessage) {
     entryImage: decodeURIComponent(entry),
     article: article === "1" || article === "true",
     time: decodeURIComponent(readingTime),
+    slug: decodeURIComponent(postSlug),
   };
   parsedRequest.images = getDefaultImages(
     parsedRequest.images,
@@ -65,8 +78,8 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 function getDefaultImages(images: string[], theme: Theme): string[] {
   const defaultImage =
     theme === "light"
-      ? "https://a.storyblok.com/f/125390/x/38399800ac/logo.svg"
-      : "https://a.storyblok.com/f/125390/x/38399800ac/logo.svg";
+      ? "https://a.storyblok.com/f/125390/x/576e41ff96/logo-badge.svg"
+      : "https://a.storyblok.com/f/125390/x/576e41ff96/logo-badge.svg";
 
   if (!images || !images[0]) {
     return [defaultImage];

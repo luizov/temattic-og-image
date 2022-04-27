@@ -1,5 +1,5 @@
-export type FileType = 'png' | 'jpeg';
-export type Theme = 'light' | 'dark';
+export type FileType = "png" | "jpeg";
+export type Theme = "light" | "dark";
 
 export interface ParsedRequest {
   fileType: FileType;
@@ -14,4 +14,5 @@ export interface ParsedRequest {
   entryImage: string;
   article: boolean;
   time: string;
+  slug: string;
 }
